@@ -1,4 +1,4 @@
 # DID-IdM
-# Frontend: React
-# Language: jsx, solidity
-# File Management: IPFS
+### Frontend: React
+### Language: jsx, solidity
+### File Management: IPFS
