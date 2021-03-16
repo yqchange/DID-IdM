@@ -1,0 +1,76 @@
+.App {
+  text-align: center;
+  /*background: url(Health-Insurance-and-the-Health-Care-System.jpg)  left top;*/
+  background-size: cover;
+  
+}
+
+.App-logo {
+  height: 250px;
+}
+
+.App-header {
+  height: 150px;
+  padding: 20px;
+  color: black;
+  text-align: center;
+}
+
+.App-intro {
+  font-size: 40px;
+  position: relative;
+  top: 5px;
+}
+
+.App-nav {
+  text-align: center;
+  margin-left: -150px;
+}
+
+@keyframes App-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.App-body {
+  text-align: center;
+  position: relative;
+  top: 10px;
+}
+
+.App-innerHeader {
+	color : #194f81;
+	font-size : 14pt;
+	height : 30px;
+	text-indent : 1em;
+  text-align : center;
+}
+.App-addressinput{
+  width: 200px;
+}
+.box {
+  margin: auto;
+	border: 5px solid #3f7cb6;
+	width : 1400px;
+	font-family : sans-serif;
+	color : #000000;
+	position : relative;
+  text-indent : 1em;
+  margin : "auto";
+  text-align : left;
+}
+.box2 {
+  margin: auto;
+  border: 5px solid #3f7cb6;
+	width : 800px;
+	font-family : sans-serif;
+	color : #000000;
+	position : relative;
+  text-indent : 1em;
+  margin : "auto";
+}
+.headerFont {
+  font-size: 30px;
+  color: #3e6788;
+  text-shadow: -1.5px 1.5px 0 white, 1.5px 1.5px 0 white,1.5px -1.5px 0 white,-1.5px -1.5px 0 white;
+  font-family: sans-serif;
+}
