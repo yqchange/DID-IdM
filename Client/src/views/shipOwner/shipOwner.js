@@ -67,7 +67,7 @@ const buttonStyle3={
 };
 
 
-class Shipper extends Component {
+class ShipOwner extends Component {
 
   async componentWillMount() {
     await this.loadWeb3()
@@ -107,10 +107,18 @@ class Shipper extends Component {
         this.setState({
           orders: [...this.state.orders, order]
         })
+        /*if (order.ShipOwner == this.state.account) {
+          this.setState({
+            confirmedOrders: [...this.state.orders, order]
+          })
+        }*/
       }
+      //this.setState({orders: orderList})
+      console.log('origin', this.state.orders);
       // Load my confirmed orders
-      const confirmOrders = this.state.orders.filter((order) => order.shipper == this.state.account)
-      this.setState({ confirmOrders })
+      //const confirmedOrders = this.state.orders.filter((order) => order.ShipOwner == this.state.account)
+      console.log('origin', this.state.orders[0]);
+      this.setState({ confirmedOrders: [] })
       //Load own ships
       const ships = await logistics.methods.shipOwnership(this.state.account).call()
       this.setState({ ships })
@@ -128,7 +136,7 @@ class Shipper extends Component {
       orderCount: 0,   //order market 
       orders: [],
       ships: [],    //ownership
-      confirmOrders: [],
+      confirmed: true,
       showInfo: false,
       showOrders: false,
       showShips: false,
@@ -201,7 +209,7 @@ class Shipper extends Component {
             <div className="App">
               <div className="App-header">
                 <h2 className="headerFont">Waterway Transportation Identity Management System</h2>
-                <h2 className="headerFont">***Shipper Interface***</h2>
+                <h2 className="headerFont">***ShipOwner Interface***</h2>
               </div>
               <p className="App-intro">
               </p>
@@ -215,7 +223,7 @@ class Shipper extends Component {
                 {
                   this.state.showInfo?(
                   <div className="box" >
-                    <h3 className="App-innerHeader"></h3>
+                    <h3 className="App-innerHeader">Personal Information</h3>
                     <ShowInfo account={this.state.account} setRole={this.setRole} role={this.state.role}/>
                   </div>
                   ):null
@@ -223,16 +231,16 @@ class Shipper extends Component {
                 {
                   this.state.showOrders?(
                   <div className="box" >
-                    <h3 className="App-innerHeader">Orders</h3>
+                    <h3 className="App-innerHeader">Market</h3>
                     <p>{this.state.OrderNum}</p>
-                    <ShowOrders account={this.state.account} orders={this.state.orders} role={this.state.role} askForClearance={this.askForClearance}/>
+                    <ShowOrders account={this.state.account} orders={this.state.orders} role={this.state.role} confirmOrder={this.confirmOrder} askForClearance={this.askForClearance} confirmed = {false}/>
                   </div>
                   ):null
                 }
                 {
                   this.state.showShips?(
                   <div className="box" >
-                    <h3 className="App-innerHeader"></h3>
+                    <h3 className="App-innerHeader">My Ships</h3>
                     <ShowShips account={this.state.account} addShip={this.addShip}  addOrderToShip={this.addOrderToShip} />
                   </div>
                   ):null
@@ -240,8 +248,8 @@ class Shipper extends Component {
                 {
                   this.state.showConfirmedOrders?(
                   <div className="box" >
-                    <h3 className="App-innerHeader"></h3>
-                    <ShowOrders account={this.state.account} orders={this.state.confirmOrders} role={this.state.role} addOrderToShip={this.addOrderToShip}/>
+                    <h3 className="App-innerHeader">My Orders</h3>
+                    <ShowOrders account={this.state.account} orders={this.state.orders} role={this.state.role} addOrderToShip={this.addOrderToShip} confirmed = {true}/>
                   </div>
                   ):null
                 }
@@ -251,6 +259,6 @@ class Shipper extends Component {
   }
 }
 
-ReactDOM.render(<Shipper />, document.getElementById('shipper'));
+ReactDOM.render(<ShipOwner />, document.getElementById('ShipOwner'));
 
 serviceWorker.unregister();

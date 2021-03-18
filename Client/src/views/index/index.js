@@ -29,6 +29,8 @@ var Subpage = createReactClass({
       case "Client":
         window.open("client.html");
         break;
+      case "ShipOwner":
+        window.open("shipOwner.html");
       case "Shipper":
         window.open("shipper.html");
         break;
@@ -60,6 +62,7 @@ function MainPage() {
         </div>
         <div className = "App-body">
           <Subpage pageName = "Client"/><br></br>
+          <Subpage pageName = "ShipOwner"/><br></br>
           <Subpage pageName = "Shipper"/><br></br>
           <Subpage pageName = "Inspector"/><br></br>
           <Subpage pageName = "Gauger"/><br></br>

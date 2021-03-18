@@ -1,11 +1,17 @@
 pragma solidity ^0.5.16;
 
 contract Logistics {
-
-    /*struct stateHistory {
-        string currentState;
-        uint currentTs;
-    }*/
+    constructor() public {
+        roles[0xFCCCdf1e2e51bc5788A65b96Cb5E0ff4FbdE66c5] = 'Client';
+        roles[0xFe941a539EBa7E60071D83EfE71044C2f9FC0C1A] = 'ShipOwner';
+        roles[0x0d9F585DC2E20BC9ef0248655625166eEF8FcA55] = 'Inspector';
+        roles[0xC82641AfC5DFA85bb85bBa55B723303a16B8da2B] = 'Gauger';
+        roles[0xDE7A5cf1867e989F01fE51fd7c74D057ba7f7954] = 'Shipper';
+        //ships[0] = Ship(0x6504462484a07e2f2ba68947e0e16b0d2775ca8c1f36fbd87760b245e5ecc34b, 0xFe941a539EBa7E60071D83EfE71044C2f9FC0C1A, 1, 0, 0);
+        //orders[0] = Order(0x63655f2290449be76d433d7df67fd73408ec8def43969421dc831c756cb3230d, 'A', 'B', 1, 0, 0xFCCCdf1e2e51bc5788A65b96Cb5E0ff4FbdE66c5, 1, 0x0000000000000000000000000000000000000000, 0, 0);
+        shipOwners = [0xFe941a539EBa7E60071D83EfE71044C2f9FC0C1A, 0x5747238A76434e8BE13548A9B18aCE79ccFe455E];
+        //shipOwnership[0xFe941a539EBa7E60071D83EfE71044C2f9FC0C1A] = [0x6504462484a07e2f2ba68947e0e16b0d2775ca8c1f36fbd87760b245e5ecc34b];
+    }
 
 	struct Order {
         bytes32 orderID;
@@ -18,42 +24,58 @@ contract Logistics {
         uint orderStatus; //1Created, 2Comfirmed, 3Processing, 4ended, 5canceled. ShippingStatus similar.
         //stateHistory[] orderStateHistory;
 
-        address shipper;  //which operator for shipping            
+        address shipper;  //get order       
         uint EvaluateCost;
         uint FinalCost;
     }
 
     struct Ship {
         bytes32 shipID;
-        address shipOwner; //default shipper address
+        address shipOwner; 
         uint shipStatus; //AtPort, WaitingCleaning, Cleaned, Loading, Loaded, Unloading, Unloaded
         uint startWaterDisplacement;
         uint endWaterDisplacement;
         //stateHistory[] shipStateHistory;
     }
-
-    struct Document {
-        bytes ipfsHash;
-        address signature;
+    
+    struct ClearanceRequest {
         bytes32 shipID;
-        uint timestamp;
+        address requestor;
     }
 
+    struct Document {
+        string ipfsHash;
+        bool signedByShipOwner;
+    }
+
+    struct Confirmation {
+        bool startMeasured;
+        bool signedByShipOwnerStart;
+        bool signedByShipperStart;
+        bool endMeasured;
+        bool signedByShipOwnerEnd;
+        bool signedByShipperEnd;
+    }
+    
 	Order[] public orders;
-    Ship[] public ships;
+    ClearanceRequest[] public clearanceRequests;
     uint orderNum = 0;
     uint shipNum = 0;
+    address[] shipOwners; //choosen by shipper
 
-    mapping(address => string) roles; //client, shipper, inspector, gauger, carrier
-    mapping (bytes32=> Order) public ordermapping; //orderID to a order struct
-    mapping (bytes32=> Ship) public shipmapping;  //shipID to a ship struct
-    mapping(bytes32 => bytes32) orderToShip;
-    mapping(bytes32 => bytes32) shipToOrder;
-    mapping(bytes32 => address) orderOwnership;
-    mapping(address => bytes32[]) shipOwnership; //owner to ship
+    mapping(address => string) public roles; //Client, Shipper, Inspector, Gauger, hipOwner
+    mapping(bytes32 => Order) public ordermapping; //orderID to a order struct
+    mapping(bytes32 => Ship) public shipmapping;  //shipID to a ship struct
+    //mapping(bytes32 => bytes32) orderToShip;
+    //mapping(bytes32 => bytes32) shipToOrder;
+    mapping(bytes32 => address) public orderToShipOwner;  //place a order to ship company
+    //mapping(bytes32 => address) orderOwnership; //who would take order to ship line
+    mapping(address => bytes32[]) public shipOwnership; //owner to ship
 
     mapping(address => bytes[]) public signedDocs; 
-    mapping (bytes32 => Document) public docmapping;
+    mapping(bytes32 => Document) public docmapping;
+    mapping(bytes32 => Document) public shipClearanceReport;
+    mapping(bytes32 => Confirmation) public confirmations;
 
     event roleSet(string role);
     event accessDenied(string role);
@@ -73,6 +95,7 @@ contract Logistics {
 
     function setRole(address addr, string memory role) public {
         roles[addr] = role;
+        shipOwners.push(msg.sender);
         emit roleSet(role);
     }
 
@@ -118,8 +141,7 @@ contract Logistics {
 		return orders.length;
 	}
 
-    function AddShip(address addr) hasRole('Shipper') public {
-        require(addr == msg.sender);
+    function AddShip() hasRole('ShipOwner') public {
         bytes32 uniqueId = keccak256(abi.encodePacked(msg.sender, now));
         uint shipStatus = 1;
         shipmapping[uniqueId].shipID = uniqueId;
@@ -130,9 +152,10 @@ contract Logistics {
         shipOwnership[msg.sender].push(uniqueId);
         emit UpdateshipStatus(uniqueId, 'At port', now);
     }
-
-    function AddOrderToShip(bytes32 shipID, bytes32 orderID) hasRole('Shipper') public {
-        orderToShip[orderID] = shipID;
+/*
+    function ChooseShipOwner(bytes32 shipID, bytes32 orderID) hasRole('Shipper') public {
+        //orderToShip[orderID] = shipID;
+        // work with a packlist
         ordermapping[orderID].orderStatus = 3;  //processing
         
         for(uint i=0; i<orders.length; i++){
@@ -142,44 +165,97 @@ contract Logistics {
         }
         //ordermapping[orderID].orderStateHistory[2].currentState ='Processing in dispatch port';
         //ordermapping[orderID].orderStateHistory[2].currentTs = now;
+    }*/
+
+    function ChooseShipOwner(address shipOwner, bytes32 orderID) hasRole('Shipper') public {
+        orderToShipOwner[orderID] = shipOwner;
+        //generally work with a packlist but now seen as single order
+        ordermapping[orderID].orderStatus = 3;  //processing
+        for(uint i=0; i<orders.length; i++){
+            if (orders[i].orderID == orderID){
+                orders[i].orderStatus = 3;
+            }
+        }
     }
 
-    function AskForClearance(bytes32 shipID) hasRole('Shipper') public {
+    function AskForClearance(bytes32 shipID) hasRole('ShipOwner') public {
         if (shipmapping[shipID].shipOwner == msg.sender && shipmapping[shipID].shipStatus == 1) {
             shipmapping[shipID].shipStatus = 2; 
             //shipmapping[shipID].shipStateHistory[1].currentState ='Waiting for cleaning';
             //shipmapping[shipID].shipStateHistory[1].currentTs = now;
+            clearanceRequests.push(ClearanceRequest(shipID, msg.sender));
             emit UpdateshipStatus(shipID, 'Waiting for clearance inspection', now);
-        }   
+        } 
     }
 
-    function ShipClearance(bytes32 shipID, bytes memory ipfsHash) hasRole('Inspector') public {
-        if (shipmapping[shipID].shipOwner == msg.sender && shipmapping[shipID].shipStatus == 2) {
+/*
+    function ShipClearance(bytes32 shipID, strings memory ipfsHash) hasRole('Inspector') public {
+        if ( UploadClearanceReport(shipID, ipfsHash) && shipmapping[shipID].shipStatus == 2) {
             UploadClearanceReport(shipID, ipfsHash);
             shipmapping[shipID].shipStatus = 3;
             //shipmapping[shipID].shipStateHistory[2].currentState ='Inspected, waiting for confirmation from ship owner';
             //shipmapping[shipID].shipStateHistory[2].currentTs = now;
             emit UpdateshipStatus(shipID, 'Inspected', now);
         }
+    }*/
+
+    function UploadClearanceReport(bytes32 shipID, string memory ipfsHash) hasRole('Inspector') public {
+        //bytes32 uniqueId = keccak256(abi.encodePacked(msg.sender, now));
+        //signedDocs[msg.sender].push(ipfsHash); //Add document to users's "signed" list
+        //docmapping[uniqueId] = Document(ipfsHash, msg.sender, shipID, now);
+        shipClearanceReport[shipID] = Document(ipfsHash, false);
+        shipmapping[shipID].shipStatus = 3; //cleaned
+        emit UpdateshipStatus(shipID, 'Cleaned, waiting for ship owner\'s confirmations', now);
     }
 
-    function UploadClearanceReport(bytes32 shipID, bytes memory ipfsHash) hasRole('Inspector') public returns (bool) {
-        bytes32 uniqueId = keccak256(abi.encodePacked(msg.sender, now));
-        signedDocs[msg.sender].push(ipfsHash); //Add document to users's "signed" list
-        docmapping[uniqueId] = Document(ipfsHash, msg.sender, shipID, now);
-        return true;
-    }
-
-    function SignClearanceReport(bytes memory ipfsHash) public {
-        signedDocs[msg.sender].push(ipfsHash);
+    function SignClearanceReport(bytes32 shipID) hasRole('ShipOwner') public { //shipper and shipOwner would sign Report
+        //signedDocs[msg.sender].push(ipfsHash); // sign doc which she checked in ipfs 
+        shipClearanceReport[shipID].signedByShipOwner = true;
         //docmapping[].signatures.push(msg.sender);
     }
+    
+    function StartWaterDisplacement(bytes32 shipID, uint measure1) hasRole('Gauger') public {
+        require(shipClearanceReport[shipID].signedByShipOwner);
+        shipmapping[shipID].startWaterDisplacement = measure1;
+        confirmations[shipID] = Confirmation(true, false, false, false, false, false);
+    }
+    
+    function EndWaterDisplacement(bytes32 shipID, uint measure1) hasRole('Gauger') public {
+        require(shipClearanceReport[shipID].signedByShipOwner);
+        shipmapping[shipID].startWaterDisplacement = measure1;
+        confirmations[shipID].endMeasured = true;
+    }
+    
+    function SignConfirmation(bytes32 shipID) public {
+        if (confirmations[shipID].startMeasured && !confirmations[shipID].endMeasured) {
+            if (keccak256(abi.encodePacked(roles[msg.sender])) == keccak256(abi.encodePacked('Shipper'))) {
+                confirmations[shipID].signedByShipperStart = true;
+            }
+            else if (keccak256(abi.encodePacked(roles[msg.sender])) == keccak256(abi.encodePacked('ShipOwner'))) {
+                confirmations[shipID].signedByShipperStart = true;
+            }
+        } 
+        else if (confirmations[shipID].endMeasured) {
+            if (keccak256(abi.encodePacked(roles[msg.sender])) == keccak256(abi.encodePacked('Shipper'))) {
+                confirmations[shipID].signedByShipperEnd = true;
+            }
+            else if (keccak256(abi.encodePacked(roles[msg.sender])) == keccak256(abi.encodePacked('ShipOwner'))) {
+                confirmations[shipID].signedByShipperEnd = true;
+            }
+        }
+        else if (confirmations[shipID].signedByShipperStart && confirmations[shipID].signedByShipperStart && !confirmations[shipID].endMeasured) {
+            shipmapping[shipID].shipStatus = 4; //Loading
+            emit UpdateshipStatus(shipID, 'Can start loading...', now);
+        }
+    }
+
+    function LoadGoods(bytes32 shipID) hasRole('Shipper') public {
+        require(shipmapping[shipID].shipStatus == 4);
+        shipmapping[shipID].shipStatus = 5; //Finish loading
+        emit UpdateshipStatus(shipID, 'All goods has been loaded', now);
+    }
+
 }
-
-
-
-
-
 
 
 /*

@@ -57,6 +57,16 @@ const inputStyle={
   };
   
 export default class ShowInfo extends Component {
+    shouldComponentUpdate(nextProps) {
+      if(this.props.account !== nextProps.account || this.props.role !== nextProps.role ) {
+        return true
+      }
+      if(this.props.setRole !== nextProps.setRole) {
+        return true
+      }
+      return false;
+    }
+  
     render () {
       if (!this.props.role) {
         alert('Please set role first.');
@@ -73,7 +83,8 @@ export default class ShowInfo extends Component {
           <p> 
             <select id="role" type="string" ref={(select) => { this.role = select }} >
               <option value="Client" >Client</option>
-              <option value="Shipper">Ship Owner</option>
+              <option value="ShipOwner">Ship Owner</option>
+              <option value="Shipper">Shipper</option>
               <option value="Inspector">Cargo hold inspector</option>
               <option value="Gauger">Gauger</option>   
             </select>

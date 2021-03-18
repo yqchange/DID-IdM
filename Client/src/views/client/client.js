@@ -126,6 +126,7 @@ class Client extends Component {
       showInfo: false,
       showOrders: false,
       showNewOrder: false,
+      confirmed: false,
     }
     this.handleShowInfoNavClick = this.handleShowInfoNavClick.bind(this);
     this.handleShowOrdersNavClick = this.handleShowOrdersNavClick.bind(this);
@@ -191,7 +192,7 @@ class Client extends Component {
                 {
                   this.state.showInfo?(
                   <div className="box" >
-                    <h3 className="App-innerHeader"></h3>
+                    <h3 className="App-innerHeader">Personal Information</h3>
                     <ShowInfo account={this.state.account} setRole={this.setRole} role={this.state.role}/>
                   </div>
                   ):null
@@ -199,16 +200,16 @@ class Client extends Component {
                 {
                   this.state.showOrders?(
                   <div className="box" >
-                    <h3 className="App-innerHeader">Orders</h3>
+                    <h3 className="App-innerHeader">My Orders</h3>
                     <p>{this.state.OrderNum}</p>
-                    <ShowOrders account={this.state.account} orders={this.state.orders} role={this.state.role}/>
+                    <ShowOrders account={this.state.account} orders={this.state.orders} role={this.state.role} confirmed={this.state.confirmed}/>
                   </div>
                   ):null
                 }
                 {
                   this.state.showNewOrder?(
                   <div className="box" >
-                    <h3 className="App-innerHeader"></h3>
+                    <h3 className="App-innerHeader">New Order</h3>
                     <NewOrder account={this.state.account} createOrder = {this.createOrder}/>
                   </div>
                   ):null

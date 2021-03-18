@@ -71,25 +71,41 @@ export default class ShowOrders extends Component {
         </div>
       );
     }*/
+    
+    shouldComponentUpdate(nextProps) {
+        if(this.props.account !== nextProps.account || this.props.role !== nextProps.role || this.props.orders !== nextProps.orders) {
+          return true
+        }
+        if(this.props.setRole !== nextProps.setRole ||  this.props.askForClearance !== nextProps.askForClearance || this.props.addOrderToShip !== nextProps.addOrderToShip) {
+          return true
+        }
+        return false;
+    }
 
     render() {
         const filteredOptions1 = this.props.orders.filter(
             order => order.orderOwner === this.props.account   //get own orders for client created by themselves
         );
         const filteredOptions2 = this.props.orders.filter(
-            order => order.orderStatus === 1 || 2  //get all available orders for shippers
+            order => order.orderStatus == 1   //get all available orders for ShipOwners
+        );
+        const filteredOptions3 = this.props.orders.filter(
+            order => order.orderStatus == 2 //get all available orders for ShipOwners
         );
         /*
         const filteredOptions3 = this.props.confirmedOrders.filter(
-            order => order.orderStatus ===  2  //get all confirmed orders for single shipper 
+            order => order.orderStatus ===  2  //get all confirmed orders for single ShipOwner 
         );*/
         var filteredOptions;
         switch (this.props.role)
             {
                 case 'Client': filteredOptions = filteredOptions1;
-                case 'Shipper': filteredOptions = filteredOptions2;
-                default: filteredOptions = filteredOptions2;
+                case 'ShipOwner': filteredOptions = filteredOptions2;
+                //default: filteredOptions = filteredOptions3;
             }
+        if (this.props.confirmed) {
+            filteredOptions = filteredOptions3;
+        }
         /*
         if (this.props.confirmedOrders !== null) {
             filteredOptions = filteredOptions3
@@ -105,7 +121,11 @@ export default class ShowOrders extends Component {
                         <th scope="col">Destination</th>
                         <th scope="col">Freight Class</th>
                         <th scope="col">Estimation Arrival Time</th>
-                        <th scope="col">Status</th>
+                        {
+                            (!this.props.role == 'ShipOwner')?(
+                                <th scope="col">Status</th>
+                            ):null
+                        }
                         <th scope="col">Options</th>
                         <td></td>
                         </tr>
@@ -119,14 +139,19 @@ export default class ShowOrders extends Component {
                             <td>{order.to}</td>
                             <td>{order.freightClass}</td>
                             <td>{moment(parseInt(order.estimate_arrival_time)).format('YYYY-MM-DD')}</td>
-                            <td>
-                                {
-                                {
-                                    1: 'Created',
-                                    2: 'Confirmed'
-                                }[order.orderStatus]
-                                }
-                            </td>
+                            {
+                                !this.props.confirmed?(
+                                    <td>
+                                        {
+                                        {
+                                            1: 'Created',
+                                            2: 'Confirmed',
+                                            3: 'Processing'
+                                        }[order.orderStatus]
+                                        }
+                                    </td>
+                                ):null
+                            }
                             {
                                 {
                                     'Client': 
@@ -138,14 +163,27 @@ export default class ShowOrders extends Component {
                                         }}
                                         >Detail</button>
                                         </td>,
-                                    'Shipper': 
-                                        <td><button
+                                    'ShipOwner': 
+                                        <td>
+                                            {
+                                            !this.props.confirmed?(
+                                            <button
                                             name={order.orderID} 
-                                            value={order.orderOwner}
+                                            
                                             onClick={(event) => {
                                                 this.props.confirmOrder(event.target.name)
-                                        }}
-                                        >Confirm</button>
+                                            }}
+                                            >Confirm</button>
+                                            ):(
+                                                <button
+                                                name={order.orderID} 
+                                                value={order.orderOwner}
+                                                onClick={(event) => {
+                                                    this.props.confirmOrder(event.target.name)
+                                                }}
+                                            >Assign? for order?</button>
+                                            )
+                                            }
                                         </td>
                                 }[this.props.role]
                             }

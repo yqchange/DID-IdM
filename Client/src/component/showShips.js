@@ -64,17 +64,17 @@ export default class ShowShips extends Component {
             order => order.orderOwner === this.props.account   //get own orders for client created by themselves
         );
         const filteredOptions2 = this.props.orders.filter(
-            order => order.orderStatus === 1 || 2  //get all available orders for shippers
+            order => order.orderStatus === 1 || 2  //get all available orders for ShipOwners
         );
         /*
         const filteredOptions3 = this.props.confirmedOrders.filter(
-            order => order.orderStatus ===  2  //get all confirmed orders for single shipper 
+            order => order.orderStatus ===  2  //get all confirmed orders for single ShipOwner 
         );*/
         var filteredOptions;
         switch (this.props.role)
             {
                 case 'Client': filteredOptions = filteredOptions1;
-                case 'Shipper': filteredOptions = filteredOptions2;
+                case 'ShipOwner': filteredOptions = filteredOptions2;
                 default: filteredOptions = filteredOptions2;
             }
         /*
@@ -125,7 +125,7 @@ export default class ShowShips extends Component {
                                         }}
                                         >Detail</button>
                                         </td>,
-                                    'Shipper': 
+                                    'ShipOwner': 
                                         <td><button
                                             name={order.orderID} 
                                             value={order.orderOwner}
