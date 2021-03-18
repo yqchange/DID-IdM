@@ -72,8 +72,8 @@ contract Logistics {
     //mapping(bytes32 => address) orderOwnership; //who would take order to ship line
     mapping(address => bytes32[]) public shipOwnership; //owner to ship
 
-    mapping(address => bytes[]) public signedDocs; 
-    mapping(bytes32 => Document) public docmapping;
+    //mapping(address => bytes[]) public signedDocs; 
+    //mapping(bytes32 => Document) public docmapping;
     mapping(bytes32 => Document) public shipClearanceReport;
     mapping(bytes32 => Confirmation) public confirmations;
 
@@ -81,8 +81,8 @@ contract Logistics {
     event accessDenied(string role);
     event UpdateorderStatus(bytes32 orderID, string orderStatus, uint ts);
     event UpdateshipStatus(bytes32 shipID, string shipStatus, uint ts);
-    event DocCreated(address docCreator, uint256 docID);
-    event DocSigned(address from, uint256 docId, uint8 singId, bytes16 signType, bytes sign);
+    event UpdateDocStatus(address CreatorOrSigner, string ipfsHash, string role);
+    //event DocSigned(address from, uint256 docId, uint8 singId, bytes16 signType, bytes sign);
 
     
     modifier hasRole(string memory role) {
@@ -206,46 +206,50 @@ contract Logistics {
         shipClearanceReport[shipID] = Document(ipfsHash, false);
         shipmapping[shipID].shipStatus = 3; //cleaned
         emit UpdateshipStatus(shipID, 'Cleaned, waiting for ship owner\'s confirmations', now);
+        emit UpdateDocStatus(msg.sender, ipfsHash, 'Inspector has been upload doc.');
     }
 
-    function SignClearanceReport(bytes32 shipID) hasRole('ShipOwner') public { //shipper and shipOwner would sign Report
-        //signedDocs[msg.sender].push(ipfsHash); // sign doc which she checked in ipfs 
+    function SignClearanceReport(bytes32 shipID, string memory ipfsHash) hasRole('ShipOwner') public { //shipper and shipOwner would sign Report
         shipClearanceReport[shipID].signedByShipOwner = true;
-        //docmapping[].signatures.push(msg.sender);
+        emit UpdateDocStatus(msg.sender, ipfsHash, 'Ship owner signed doc.');
     }
     
-    function StartWaterDisplacement(bytes32 shipID, uint measure1) hasRole('Gauger') public {
+    function StartWaterDisplacement(bytes32 shipID, uint measure) hasRole('Gauger') public {
         require(shipClearanceReport[shipID].signedByShipOwner);
-        shipmapping[shipID].startWaterDisplacement = measure1;
+        shipmapping[shipID].startWaterDisplacement = measure;
         confirmations[shipID] = Confirmation(true, false, false, false, false, false);
     }
     
-    function EndWaterDisplacement(bytes32 shipID, uint measure1) hasRole('Gauger') public {
-        require(shipClearanceReport[shipID].signedByShipOwner);
-        shipmapping[shipID].startWaterDisplacement = measure1;
+    function EnableLoad(bytes32 shipID) public {
+        if (confirmations[shipID].signedByShipperStart && confirmations[shipID].signedByShipOwnerStart) {
+            shipmapping[shipID].shipStatus = 4; //enable Loading
+            emit UpdateshipStatus(shipID, 'Can start loading...', now);
+        }
+    }
+    
+    function EndWaterDisplacement(bytes32 shipID, uint measure) hasRole('Gauger') public {
+        require(confirmations[shipID].startMeasured && confirmations[shipID].signedByShipperStart && confirmations[shipID].signedByShipperStart);
+        shipmapping[shipID].endWaterDisplacement = measure;
         confirmations[shipID].endMeasured = true;
     }
     
-    function SignConfirmation(bytes32 shipID) public {
+    function SignConfirmation(bytes32 shipID, string memory role) public {
         if (confirmations[shipID].startMeasured && !confirmations[shipID].endMeasured) {
-            if (keccak256(abi.encodePacked(roles[msg.sender])) == keccak256(abi.encodePacked('Shipper'))) {
+            if (keccak256(abi.encodePacked(role)) == keccak256(abi.encodePacked('Shipper'))) {
                 confirmations[shipID].signedByShipperStart = true;
             }
-            else if (keccak256(abi.encodePacked(roles[msg.sender])) == keccak256(abi.encodePacked('ShipOwner'))) {
-                confirmations[shipID].signedByShipperStart = true;
+            else if (keccak256(abi.encodePacked(role)) == keccak256(abi.encodePacked('ShipOwner'))) {
+                confirmations[shipID].signedByShipOwnerStart = true;
             }
         } 
         else if (confirmations[shipID].endMeasured) {
-            if (keccak256(abi.encodePacked(roles[msg.sender])) == keccak256(abi.encodePacked('Shipper'))) {
+            if (keccak256(abi.encodePacked(role)) == keccak256(abi.encodePacked('Shipper'))) {
                 confirmations[shipID].signedByShipperEnd = true;
             }
-            else if (keccak256(abi.encodePacked(roles[msg.sender])) == keccak256(abi.encodePacked('ShipOwner'))) {
-                confirmations[shipID].signedByShipperEnd = true;
+            else if (keccak256(abi.encodePacked(role)) == keccak256(abi.encodePacked('ShipOwner'))) {
+                confirmations[shipID].signedByShipOwnerEnd = true;
             }
-        }
-        else if (confirmations[shipID].signedByShipperStart && confirmations[shipID].signedByShipperStart && !confirmations[shipID].endMeasured) {
-            shipmapping[shipID].shipStatus = 4; //Loading
-            emit UpdateshipStatus(shipID, 'Can start loading...', now);
+        else revert();
         }
     }
 
@@ -254,7 +258,7 @@ contract Logistics {
         shipmapping[shipID].shipStatus = 5; //Finish loading
         emit UpdateshipStatus(shipID, 'All goods has been loaded', now);
     }
-
+    
 }
 
 
