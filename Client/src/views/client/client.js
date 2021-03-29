@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import * as serviceWorker from '../../serviceWorker';
 import Web3 from 'web3'
+import EthrDID from 'ethr-did'
 import LogisticsContract from "../../contracts/Logistics.json";
 import '../../app.css';
 import NewOrder from '../../component/newOrder';
@@ -68,6 +69,25 @@ const buttonStyle3={
 
 class Client extends Component {
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      web3: null,
+      logistics: null,
+      account: '',
+      did: '',
+      role: 'Client',
+      orderCount: 0,
+      orders: [],
+      showInfo: false,
+      showOrders: false,
+      showNewOrder: false
+    }
+    this.handleShowInfoNavClick = this.handleShowInfoNavClick.bind(this);
+    this.handleShowOrdersNavClick = this.handleShowOrdersNavClick.bind(this);
+    this.handleNewOrderNavClick = this.handleNewOrderNavClick.bind(this);
+  };
+
   async componentWillMount() {
     await this.loadWeb3()
     await this.loadBlockchainData()
@@ -80,6 +100,7 @@ class Client extends Component {
     }
     else if (window.web3) {
       window.web3 = new Web3(window.web3.currentProvider)
+      this.setState({web3: window.web3})
     }
     else {
       window.alert('Non-Ethereum browser detected. You should consider trying MetaMask!')
@@ -88,6 +109,7 @@ class Client extends Component {
 
   async loadBlockchainData() {
     const web3 = window.web3
+    this.setState({web3})
     // Load account
     const accounts = await web3.eth.getAccounts()
     this.setState({ account: accounts[0] })
@@ -96,47 +118,34 @@ class Client extends Component {
     if (networkData) {
       const logistics = new web3.eth.Contract(LogisticsContract.abi, networkData.address)
       this.setState({ logistics })
-      const role = await logistics.methods.getRole(this.state.account).call()
-      this.setState({ role })
+      //const role = await logistics.methods.getRole(this.state.account).call()
+      //this.setState({ role })
+
       const orderCount = await logistics.methods.getOrderCount().call()
       //console.log(orderCount.toString())
       this.setState({ orderCount })
       //Load orders
       for (let i = 0; i <= orderCount; i++) {
         const order = await logistics.methods.orders(i).call()
+        //console.log(order)
         this.setState({
           orders: [...this.state.orders, order]
         })
       }
-      //this.setState({ loading: false })
-      console.log(this.state.orders)
+      //if (this.state.did == '') {
+      this.createDid()
+
+      //}
     } else {
       window.alert('Logistics contract not deployed to detected network.')
     }
   }
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      logistics: null,
-      account: '',
-      role: '',
-      orderCount: 0,
-      orders: [],
-      showInfo: false,
-      showOrders: false,
-      showNewOrder: false,
-      confirmed: false,
-    }
-    this.handleShowInfoNavClick = this.handleShowInfoNavClick.bind(this);
-    this.handleShowOrdersNavClick = this.handleShowOrdersNavClick.bind(this);
-    this.handleNewOrderNavClick = this.handleNewOrderNavClick.bind(this);
-  };
 
   handleShowInfoNavClick() {
     this.setState(prevState => ({
       showInfo: !prevState.showInfo,
-    }));
+    }))
   };
 
   handleShowOrdersNavClick() {
@@ -148,33 +157,69 @@ class Client extends Component {
   handleNewOrderNavClick() {
     this.setState(prevState => ({
       showNewOrder: !prevState.showNewOrder,
-    }));
+    }))
   };
-
+/*
   setRole = (add, role) => {
-    //const { accounts, contract } = this.state;
-    this.state.logistics.methods.setRole(add, role).send({from: this.state.account, gas: 3000000});
-  };
+    this.state.logistics.methods.setRole(this.state.account, role).send({from: this.state.account, gas: 80000})
+  };*/
 
   createOrder = (from, to, freightClass, ArrivalTime) => {
-    //this.setState({ loading: true })
     this.state.logistics.methods.createOrder(from, to, freightClass, ArrivalTime).send({ from: this.state.account })
-      .once('receipt', (receipt) => {
-        //this.setState({ loading: false })
-      })
   };
 
   getOrderNum = async () => {
-    const { accounts, contract } = this.state;
-    const orderNum = await contract.methods.getOrderCount().call();
-    this.setState({ orderNum: orderNum });
+    const { accounts, contract } = this.state
+    const orderNum = await contract.methods.getOrderCount().call()
+    this.setState({ orderNum: orderNum })
   };
-      
+
+  getOrders = async () => {
+    
+  }
+
+  adminOrder = (orderId) => {
+    try{
+      this.state.logistics.methods.adminOrder(orderId).send({ from: this.state.account, gas: 800000 })
+    } catch(err) {
+      console.log(err)
+    }
+  };
+/*
+  createDid = () => {
+    //let registryAddress = '0xdCa7EF03e98e0DC2B855bE647C39ABe984fcF21B'
+    let provider = this.state.web3
+    console.log('hiiii')
+    const ethrDid = new EthrDID({address: '0xFCCCdf1e2e51bc5788A65b96Cb5E0ff4FbdE66c5',  //account from my metamask wallet
+                                privateKey: '771055cfdb54ba804d5e68cd5aedf110c94682cbb64258b3fcf902e8c5ea8f10', 
+                                provider})
+    console.log('Ethr DID\n\n', ethrDid)
+    console.log(ethrDid.did)
+    this.setState( {did: ethrDid.did} )
+    console.log(this.state.did)
+  }*/
+
+  createDid(){
+    let provider = this.state.web3
+    const ethrDid = new EthrDID({address: '0xFCCCdf1e2e51bc5788A65b96Cb5E0ff4FbdE66c5',  //account from my metamask wallet
+                                privateKey: '771055cfdb54ba804d5e68cd5aedf110c94682cbb64258b3fcf902e8c5ea8f10', 
+                                provider})
+    console.log('Ethr DID\n\n', ethrDid)
+    console.log(ethrDid.did)
+    this.setState( {did: ethrDid.did} )
+    console.log(this.state.did)
+  }
+
+  componentDidMount() {
+    if (this.state.did == '') {
+      this.createDid()
+    }
+  }
+
   render() {
-    //if (!this.state.web3) {
-      //return <div>Loading Web3, accounts, and contract...</div>;
-   // }
-    //const { accounts, contract } = this.props;
+    if (!this.state.web3) {
+      return <div>Loading Web3, accounts, and contract...</div>;
+    }
     return (
             <div className="App">
               <div className="App-header">
@@ -193,7 +238,7 @@ class Client extends Component {
                   this.state.showInfo?(
                   <div className="box" >
                     <h3 className="App-innerHeader">Personal Information</h3>
-                    <ShowInfo account={this.state.account} setRole={this.setRole} role={this.state.role}/>
+                    <ShowInfo account={this.state.account} did={this.state.did}/>
                   </div>
                   ):null
                 }
@@ -202,7 +247,7 @@ class Client extends Component {
                   <div className="box" >
                     <h3 className="App-innerHeader">My Orders</h3>
                     <p>{this.state.OrderNum}</p>
-                    <ShowOrders account={this.state.account} orders={this.state.orders} role={this.state.role} confirmed={this.state.confirmed}/>
+                    <ShowOrders account={this.state.account} role={this.state.role} orders={this.state.orders} adminOrder={this.adminOrder}/>
                   </div>
                   ):null
                 }

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import getWeb3 from '../getWeb3';
-import LogisticsContract from "../contracts/Logistics.json";
+
 //Styles
 const inputStyle={
     borderRadius:5,
@@ -68,14 +67,22 @@ export default class ShowInfo extends Component {
     }
   
     render () {
+      /*
       if (!this.props.role) {
         alert('Please set role first.');
-      }
+      }*/
       return (
         <div>
-          <p>Your current role: {this.props.role}</p>
           <p>Your address: {this.props.account}</p>
-          <form onSubmit={(event) => {
+          <p>Your did: {this.props.did}</p>
+        </div>
+      );
+    }
+  };
+
+  /*
+  
+  <form onSubmit={(event) => {
             event.preventDefault();
             const role = this.role.value;
             this.props.setRole(this.props.account, role);
@@ -90,8 +97,4 @@ export default class ShowInfo extends Component {
             </select>
           </p> 
           <p><button type="submit" style={buttonStyle} onClick={this.props.setRole}>Set</button></p>
-          </form>
-        </div>
-      );
-    }
-  };
+          </form>*/

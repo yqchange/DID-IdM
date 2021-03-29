@@ -1,0 +1,18 @@
+address: '0xFCCCdf1e2e51bc5788A65b96Cb5E0ff4FbdE66c5',
+  did: 'did:ethr:0xFCCCdf1e2e51bc5788A65b96Cb5E0ff4FbdE66c5',
+  signer: [Function] }
+
+
+Ethr DID Document
+
+
+{ '@context': 'https://w3id.org/did/v1',
+  id: 'did:ethr:0xFCCCdf1e2e51bc5788A65b96Cb5E0ff4FbdE66c5',
+  publicKey:
+   [ { id: 'did:ethr:0xFCCCdf1e2e51bc5788A65b96Cb5E0ff4FbdE66c5#owner',
+       type: 'Secp256k1VerificationKey2018',
+       owner: 'did:ethr:0xFCCCdf1e2e51bc5788A65b96Cb5E0ff4FbdE66c5',
+       ethereumAddress: '0x' } ],
+  authentication:
+   [ { type: 'Secp256k1SignatureAuthentication2018',
+       publicKey: 'did:ethr:0xFCCCdf1e2e51bc5788A65b96Cb5E0ff4FbdE66c5#owner' } ] }

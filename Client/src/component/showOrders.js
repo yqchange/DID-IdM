@@ -3,6 +3,7 @@ import moment from 'moment';
 import { Table, FormControl, ProgressBar } from 'react-bootstrap';
 import Web3 from 'web3';
 import LogisticsContract from "../contracts/Logistics.json";
+import BN from 'bn.js';
 
 //Styles
 const inputStyle={
@@ -12,9 +13,10 @@ const inputStyle={
     borderLeft:0,
     borderRight:0,
     height:30,
-    marginRight:10
+    marginRight:10,
+    width: 200
   };
-  const buttonStyle={
+const buttonStyle={
     borderRadius:5,
     fontSize:15,
     borderTop:0,
@@ -26,30 +28,8 @@ const inputStyle={
     color:"white",
     backgroundColor:"LightSalmon"
   };
-  const buttonStyle2={
-    borderRadius:5,
-    fontSize:15,
-    borderTop:0,
-    borderLeft:0,
-    borderRight:0,
-    height:40,
-    width: 100,
-    marginLeft: 10,
-    color:"white",
-    backgroundColor:"coral"
-  };
-  const popupStyle={
-    borderRadius:5,
-    backgroundColor:"#f6f5be",
-    width:300,
-    zIndex:100,
-    margin:"auto",
-    fontSize:15,
-    marginTop:30,
-    marginBottom:30,
-    borderWidth:2
-  };
-  const buttonStyle3={
+
+const buttonStyle3={
     borderRadius:5,
     fontSize:13,
     height:30,
@@ -58,20 +38,18 @@ const inputStyle={
     color:"white",
     backgroundColor:"coral"
   };
-export default class ShowOrders extends Component {
-    /* todo 
-    showContent = function(e) {
-        //{console.log(this.order.orderOwner)}
-        console.log('this.order.orderOwner');
-        console.log(e.target.name);
-      return (
-        <div style={popupStyle}>
-            <p>Tttttt</p>
+const buttonStyle4={
+    borderRadius:5,
+    fontSize:13,
+    height:30,
+    width: 60,
+    marginLeft: 100,
+    color:"white",
+    backgroundColor:"coral"
+  };
 
-        </div>
-      );
-    }*/
-    
+export default class ShowOrders extends Component {
+
     shouldComponentUpdate(nextProps) {
         if(this.props.account !== nextProps.account || this.props.role !== nextProps.role || this.props.orders !== nextProps.orders) {
           return true
@@ -87,32 +65,24 @@ export default class ShowOrders extends Component {
             order => order.orderOwner === this.props.account   //get own orders for client created by themselves
         );
         const filteredOptions2 = this.props.orders.filter(
-            order => order.orderStatus == 1   //get all available orders for ShipOwners
+            order => order.shipper ===  this.props.account  //get all confirmed orders for single ShipOwner 
         );
         const filteredOptions3 = this.props.orders.filter(
-            order => order.orderStatus == 2 //get all available orders for ShipOwners
+            order => order.shipOwner ===  this.props.account  //get all confirmed orders for single ShipOwner 
         );
-        /*
-        const filteredOptions3 = this.props.confirmedOrders.filter(
-            order => order.orderStatus ===  2  //get all confirmed orders for single ShipOwner 
-        );*/
         var filteredOptions;
-        switch (this.props.role)
-            {
-                case 'Client': filteredOptions = filteredOptions1;
-                case 'ShipOwner': filteredOptions = filteredOptions2;
-                //default: filteredOptions = filteredOptions3;
-            }
-        if (this.props.confirmed) {
+        if (this.props.role == 'Shipper') {
+            filteredOptions = filteredOptions2;
+        }
+        else if (this.props.role == 'ShipOwner') {
             filteredOptions = filteredOptions3;
         }
-        /*
-        if (this.props.confirmedOrders !== null) {
-            filteredOptions = filteredOptions3
-        }*/
+        else if (this.props.role == 'Client') {
+            filteredOptions = filteredOptions1;
+        }
         return (
             <div>
-                <div style={{width:500}}>
+                <div style={{width:450}}>
                     <table>
                     <thead>
                         <tr style={{fontSize:15}}>
@@ -122,11 +92,13 @@ export default class ShowOrders extends Component {
                         <th scope="col">Freight Class</th>
                         <th scope="col">Estimation Arrival Time</th>
                         {
-                            (!this.props.role == 'ShipOwner')?(
+                            (this.props.role == 'Client' )?(
+                                <div>
                                 <th scope="col">Status</th>
+                                <th scope="col">Options</th>
+                                </div>
                             ):null
                         }
-                        <th scope="col">Options</th>
                         <td></td>
                         </tr>
                     </thead>
@@ -140,7 +112,8 @@ export default class ShowOrders extends Component {
                             <td>{order.freightClass}</td>
                             <td>{moment(parseInt(order.estimate_arrival_time)).format('YYYY-MM-DD')}</td>
                             {
-                                !this.props.confirmed?(
+                                this.props.role == 'Client'?(
+                                    <div>
                                     <td>
                                         {
                                         {
@@ -150,42 +123,16 @@ export default class ShowOrders extends Component {
                                         }[order.orderStatus]
                                         }
                                     </td>
-                                ):null
-                            }
-                            {
-                                {
-                                    'Client': 
-                                        <td><button
+                                    <td>
+                                        <button
                                             name={order.orderID} 
-                                            value={order.orderOwner}
                                             onClick={(event) => {
-                                                this.getDetail(event.target.name)
+                                                this.props.adminOrder(event.target.name)
                                         }}
-                                        >Detail</button>
-                                        </td>,
-                                    'ShipOwner': 
-                                        <td>
-                                            {
-                                            !this.props.confirmed?(
-                                            <button
-                                            name={order.orderID} 
-                                            
-                                            onClick={(event) => {
-                                                this.props.confirmOrder(event.target.name)
-                                            }}
-                                            >Confirm</button>
-                                            ):(
-                                                <button
-                                                name={order.orderID} 
-                                                value={order.orderOwner}
-                                                onClick={(event) => {
-                                                    this.props.confirmOrder(event.target.name)
-                                                }}
-                                            >Assign? for order?</button>
-                                            )
-                                            }
-                                        </td>
-                                }[this.props.role]
+                                        >Admin</button>
+                                    </td>
+                                    </div>
+                                ):null
                             }
                             </tr>
                         )
@@ -196,4 +143,4 @@ export default class ShowOrders extends Component {
             </div>
       );
   }
-  };
+  };               

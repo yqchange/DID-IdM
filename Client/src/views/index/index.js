@@ -53,6 +53,7 @@ var Subpage = createReactClass({
     );
   }
 });
+
 function MainPage() {
   return (
     <div className="App">
@@ -63,9 +64,9 @@ function MainPage() {
         <div className = "App-body">
           <Subpage pageName = "Client"/><br></br>
           <Subpage pageName = "ShipOwner"/><br></br>
-          <Subpage pageName = "Shipper"/><br></br>
           <Subpage pageName = "Inspector"/><br></br>
           <Subpage pageName = "Gauger"/><br></br>
+          <Subpage pageName = "Shipper"/><br></br>
         </div>
       </div>
   );
