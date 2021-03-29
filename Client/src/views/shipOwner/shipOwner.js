@@ -11,8 +11,8 @@ import ShowShips from '../../component/showShips';
 import Market from '../../component/market';
 import VC from '../../api/vc';
 
-//import ipfsClient from "ipfs-http-client";
-//const ipfs = ipfsClient({ host: 'ipfs.infura.io', port: 5001, protocol: 'https' })
+import ipfsClient from "ipfs-http-client";
+const ipfs = ipfsClient({ host: 'ipfs.infura.io', port: 5001, protocol: 'https' })
 
 //Styles
 
