@@ -7,11 +7,11 @@ module.exports = {
   init: function () {
     db = {};
     db.credentials = new Datastore({
-      filename: "./src/api/mockCredentials/credentials.json",
+      filename: "./src/api/mockDatas/credentials.json",
       autoload: true,
     });
     db.representations = new Datastore({
-      filename: "./src/api/mockCredentials/representations.json",
+      filename: "./src/api/mockDatas/representations.json",
       autoload: true,
     });
     return db;

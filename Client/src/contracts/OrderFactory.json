@@ -84,14 +84,14 @@
     "absolutePath": "/Users/yangqingqing/Documents/ReactDemo/IdM/contracts/OrderFactory.sol",
     "exportedSymbols": {
       "OrderFactory": [
-        1079
+        1112
       ]
     },
-    "id": 1080,
+    "id": 1113,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 1034,
+        "id": 1067,
         "literals": [
           "solidity",
           "^",
@@ -104,10 +104,10 @@
       {
         "absolutePath": "/Users/yangqingqing/Documents/ReactDemo/IdM/contracts/OrderTransportation.sol",
         "file": "./OrderTransportation.sol",
-        "id": 1035,
+        "id": 1068,
         "nodeType": "ImportDirective",
-        "scope": 1080,
-        "sourceUnit": 1229,
+        "scope": 1113,
+        "sourceUnit": 1262,
         "src": "26:35:2",
         "symbolAliases": [],
         "unitAlias": ""
@@ -115,50 +115,50 @@
       {
         "baseContracts": [],
         "contractDependencies": [
-          1228
+          1261
         ],
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 1079,
+        "id": 1112,
         "linearizedBaseContracts": [
-          1079
+          1112
         ],
         "name": "OrderFactory",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "constant": false,
-            "id": 1038,
+            "id": 1071,
             "name": "deployedOrders",
             "nodeType": "VariableDeclaration",
-            "scope": 1079,
+            "scope": 1112,
             "src": "90:43:2",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
-              "typeIdentifier": "t_array$_t_contract$_OrderTransportation_$1228_$dyn_storage",
+              "typeIdentifier": "t_array$_t_contract$_OrderTransportation_$1261_$dyn_storage",
               "typeString": "contract OrderTransportation[]"
             },
             "typeName": {
               "baseType": {
                 "contractScope": null,
-                "id": 1036,
+                "id": 1069,
                 "name": "OrderTransportation",
                 "nodeType": "UserDefinedTypeName",
-                "referencedDeclaration": 1228,
+                "referencedDeclaration": 1261,
                 "src": "90:19:2",
                 "typeDescriptions": {
-                  "typeIdentifier": "t_contract$_OrderTransportation_$1228",
+                  "typeIdentifier": "t_contract$_OrderTransportation_$1261",
                   "typeString": "contract OrderTransportation"
                 }
               },
-              "id": 1037,
+              "id": 1070,
               "length": null,
               "nodeType": "ArrayTypeName",
               "src": "90:21:2",
               "typeDescriptions": {
-                "typeIdentifier": "t_array$_t_contract$_OrderTransportation_$1228_$dyn_storage_ptr",
+                "typeIdentifier": "t_array$_t_contract$_OrderTransportation_$1261_$dyn_storage_ptr",
                 "typeString": "contract OrderTransportation[]"
               }
             },
@@ -167,37 +167,37 @@
           },
           {
             "body": {
-              "id": 1068,
+              "id": 1101,
               "nodeType": "Block",
               "src": "273:168:2",
               "statements": [
                 {
                   "assignments": [
-                    1052
+                    1085
                   ],
                   "declarations": [
                     {
                       "constant": false,
-                      "id": 1052,
+                      "id": 1085,
                       "name": "newOrder",
                       "nodeType": "VariableDeclaration",
-                      "scope": 1068,
+                      "scope": 1101,
                       "src": "283:28:2",
                       "stateVariable": false,
                       "storageLocation": "default",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_OrderTransportation_$1228",
+                        "typeIdentifier": "t_contract$_OrderTransportation_$1261",
                         "typeString": "contract OrderTransportation"
                       },
                       "typeName": {
                         "contractScope": null,
-                        "id": 1051,
+                        "id": 1084,
                         "name": "OrderTransportation",
                         "nodeType": "UserDefinedTypeName",
-                        "referencedDeclaration": 1228,
+                        "referencedDeclaration": 1261,
                         "src": "283:19:2",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_OrderTransportation_$1228",
+                          "typeIdentifier": "t_contract$_OrderTransportation_$1261",
                           "typeString": "contract OrderTransportation"
                         }
                       },
@@ -205,17 +205,17 @@
                       "visibility": "internal"
                     }
                   ],
-                  "id": 1061,
+                  "id": 1094,
                   "initialValue": {
                     "argumentTypes": null,
                     "arguments": [
                       {
                         "argumentTypes": null,
-                        "id": 1055,
+                        "id": 1088,
                         "name": "from",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1040,
+                        "referencedDeclaration": 1073,
                         "src": "338:4:2",
                         "typeDescriptions": {
                           "typeIdentifier": "t_string_memory_ptr",
@@ -224,11 +224,11 @@
                       },
                       {
                         "argumentTypes": null,
-                        "id": 1056,
+                        "id": 1089,
                         "name": "to",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1042,
+                        "referencedDeclaration": 1075,
                         "src": "344:2:2",
                         "typeDescriptions": {
                           "typeIdentifier": "t_string_memory_ptr",
@@ -237,11 +237,11 @@
                       },
                       {
                         "argumentTypes": null,
-                        "id": 1057,
+                        "id": 1090,
                         "name": "freightClass",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1044,
+                        "referencedDeclaration": 1077,
                         "src": "348:12:2",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint256",
@@ -250,11 +250,11 @@
                       },
                       {
                         "argumentTypes": null,
-                        "id": 1058,
+                        "id": 1091,
                         "name": "estimate_arrival_time",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1046,
+                        "referencedDeclaration": 1079,
                         "src": "362:21:2",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint256",
@@ -263,11 +263,11 @@
                       },
                       {
                         "argumentTypes": null,
-                        "id": 1059,
+                        "id": 1092,
                         "name": "consignee",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1048,
+                        "referencedDeclaration": 1081,
                         "src": "385:9:2",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
@@ -298,7 +298,7 @@
                           "typeString": "address"
                         }
                       ],
-                      "id": 1054,
+                      "id": 1087,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -306,23 +306,23 @@
                       "nodeType": "NewExpression",
                       "src": "314:23:2",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_function_creation_nonpayable$_t_string_memory_ptr_$_t_string_memory_ptr_$_t_uint256_$_t_uint256_$_t_address_$returns$_t_contract$_OrderTransportation_$1228_$",
+                        "typeIdentifier": "t_function_creation_nonpayable$_t_string_memory_ptr_$_t_string_memory_ptr_$_t_uint256_$_t_uint256_$_t_address_$returns$_t_contract$_OrderTransportation_$1261_$",
                         "typeString": "function (string memory,string memory,uint256,uint256,address) returns (contract OrderTransportation)"
                       },
                       "typeName": {
                         "contractScope": null,
-                        "id": 1053,
+                        "id": 1086,
                         "name": "OrderTransportation",
                         "nodeType": "UserDefinedTypeName",
-                        "referencedDeclaration": 1228,
+                        "referencedDeclaration": 1261,
                         "src": "318:19:2",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_OrderTransportation_$1228",
+                          "typeIdentifier": "t_contract$_OrderTransportation_$1261",
                           "typeString": "contract OrderTransportation"
                         }
                       }
                     },
-                    "id": 1060,
+                    "id": 1093,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -332,7 +332,7 @@
                     "nodeType": "FunctionCall",
                     "src": "314:81:2",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_OrderTransportation_$1228",
+                      "typeIdentifier": "t_contract$_OrderTransportation_$1261",
                       "typeString": "contract OrderTransportation"
                     }
                   },
@@ -345,14 +345,14 @@
                     "arguments": [
                       {
                         "argumentTypes": null,
-                        "id": 1065,
+                        "id": 1098,
                         "name": "newOrder",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1052,
+                        "referencedDeclaration": 1085,
                         "src": "425:8:2",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_OrderTransportation_$1228",
+                          "typeIdentifier": "t_contract$_OrderTransportation_$1261",
                           "typeString": "contract OrderTransportation"
                         }
                       }
@@ -360,24 +360,24 @@
                     "expression": {
                       "argumentTypes": [
                         {
-                          "typeIdentifier": "t_contract$_OrderTransportation_$1228",
+                          "typeIdentifier": "t_contract$_OrderTransportation_$1261",
                           "typeString": "contract OrderTransportation"
                         }
                       ],
                       "expression": {
                         "argumentTypes": null,
-                        "id": 1062,
+                        "id": 1095,
                         "name": "deployedOrders",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1038,
+                        "referencedDeclaration": 1071,
                         "src": "405:14:2",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_array$_t_contract$_OrderTransportation_$1228_$dyn_storage",
+                          "typeIdentifier": "t_array$_t_contract$_OrderTransportation_$1261_$dyn_storage",
                           "typeString": "contract OrderTransportation[] storage ref"
                         }
                       },
-                      "id": 1064,
+                      "id": 1097,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -387,11 +387,11 @@
                       "referencedDeclaration": null,
                       "src": "405:19:2",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_function_arraypush_nonpayable$_t_contract$_OrderTransportation_$1228_$returns$_t_uint256_$",
+                        "typeIdentifier": "t_function_arraypush_nonpayable$_t_contract$_OrderTransportation_$1261_$returns$_t_uint256_$",
                         "typeString": "function (contract OrderTransportation) returns (uint256)"
                       }
                     },
-                    "id": 1066,
+                    "id": 1099,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -405,29 +405,29 @@
                       "typeString": "uint256"
                     }
                   },
-                  "id": 1067,
+                  "id": 1100,
                   "nodeType": "ExpressionStatement",
                   "src": "405:29:2"
                 }
               ]
             },
             "documentation": null,
-            "id": 1069,
+            "id": 1102,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "createOrder",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1049,
+              "id": 1082,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1040,
+                  "id": 1073,
                   "name": "from",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1069,
+                  "scope": 1102,
                   "src": "162:18:2",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -436,7 +436,7 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 1039,
+                    "id": 1072,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
                     "src": "162:6:2",
@@ -450,10 +450,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 1042,
+                  "id": 1075,
                   "name": "to",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1069,
+                  "scope": 1102,
                   "src": "182:16:2",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -462,7 +462,7 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 1041,
+                    "id": 1074,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
                     "src": "182:6:2",
@@ -476,10 +476,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 1044,
+                  "id": 1077,
                   "name": "freightClass",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1069,
+                  "scope": 1102,
                   "src": "200:17:2",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -488,7 +488,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 1043,
+                    "id": 1076,
                     "name": "uint",
                     "nodeType": "ElementaryTypeName",
                     "src": "200:4:2",
@@ -502,10 +502,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 1046,
+                  "id": 1079,
                   "name": "estimate_arrival_time",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1069,
+                  "scope": 1102,
                   "src": "219:26:2",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -514,7 +514,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 1045,
+                    "id": 1078,
                     "name": "uint",
                     "nodeType": "ElementaryTypeName",
                     "src": "219:4:2",
@@ -528,10 +528,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 1048,
+                  "id": 1081,
                   "name": "consignee",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1069,
+                  "scope": 1102,
                   "src": "247:17:2",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -540,7 +540,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 1047,
+                    "id": 1080,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "247:7:2",
@@ -557,12 +557,12 @@
               "src": "161:104:2"
             },
             "returnParameters": {
-              "id": 1050,
+              "id": 1083,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "273:0:2"
             },
-            "scope": 1079,
+            "scope": 1112,
             "src": "140:301:2",
             "stateMutability": "nonpayable",
             "superFunction": null,
@@ -570,80 +570,80 @@
           },
           {
             "body": {
-              "id": 1077,
+              "id": 1110,
               "nodeType": "Block",
               "src": "528:38:2",
               "statements": [
                 {
                   "expression": {
                     "argumentTypes": null,
-                    "id": 1075,
+                    "id": 1108,
                     "name": "deployedOrders",
                     "nodeType": "Identifier",
                     "overloadedDeclarations": [],
-                    "referencedDeclaration": 1038,
+                    "referencedDeclaration": 1071,
                     "src": "545:14:2",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_array$_t_contract$_OrderTransportation_$1228_$dyn_storage",
+                      "typeIdentifier": "t_array$_t_contract$_OrderTransportation_$1261_$dyn_storage",
                       "typeString": "contract OrderTransportation[] storage ref"
                     }
                   },
-                  "functionReturnParameters": 1074,
-                  "id": 1076,
+                  "functionReturnParameters": 1107,
+                  "id": 1109,
                   "nodeType": "Return",
                   "src": "538:21:2"
                 }
               ]
             },
             "documentation": null,
-            "id": 1078,
+            "id": 1111,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "getDeployedOrder",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1070,
+              "id": 1103,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "476:2:2"
             },
             "returnParameters": {
-              "id": 1074,
+              "id": 1107,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1073,
+                  "id": 1106,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1078,
+                  "scope": 1111,
                   "src": "499:28:2",
                   "stateVariable": false,
                   "storageLocation": "memory",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_array$_t_contract$_OrderTransportation_$1228_$dyn_memory_ptr",
+                    "typeIdentifier": "t_array$_t_contract$_OrderTransportation_$1261_$dyn_memory_ptr",
                     "typeString": "contract OrderTransportation[]"
                   },
                   "typeName": {
                     "baseType": {
                       "contractScope": null,
-                      "id": 1071,
+                      "id": 1104,
                       "name": "OrderTransportation",
                       "nodeType": "UserDefinedTypeName",
-                      "referencedDeclaration": 1228,
+                      "referencedDeclaration": 1261,
                       "src": "499:19:2",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_OrderTransportation_$1228",
+                        "typeIdentifier": "t_contract$_OrderTransportation_$1261",
                         "typeString": "contract OrderTransportation"
                       }
                     },
-                    "id": 1072,
+                    "id": 1105,
                     "length": null,
                     "nodeType": "ArrayTypeName",
                     "src": "499:21:2",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_array$_t_contract$_OrderTransportation_$1228_$dyn_storage_ptr",
+                      "typeIdentifier": "t_array$_t_contract$_OrderTransportation_$1261_$dyn_storage_ptr",
                       "typeString": "contract OrderTransportation[]"
                     }
                   },
@@ -653,14 +653,14 @@
               ],
               "src": "498:30:2"
             },
-            "scope": 1079,
+            "scope": 1112,
             "src": "451:115:2",
             "stateMutability": "view",
             "superFunction": null,
             "visibility": "public"
           }
         ],
-        "scope": 1080,
+        "scope": 1113,
         "src": "63:505:2"
       }
     ],
@@ -671,7 +671,7 @@
       "absolutePath": "/Users/yangqingqing/Documents/ReactDemo/IdM/contracts/OrderFactory.sol",
       "exportedSymbols": {
         "OrderFactory": [
-          1079
+          1112
         ]
       }
     },
@@ -685,22 +685,22 @@
             ".16"
           ]
         },
-        "id": 1034,
+        "id": 1067,
         "name": "PragmaDirective",
         "src": "0:24:2"
       },
       {
         "attributes": {
-          "SourceUnit": 1229,
+          "SourceUnit": 1262,
           "absolutePath": "/Users/yangqingqing/Documents/ReactDemo/IdM/contracts/OrderTransportation.sol",
           "file": "./OrderTransportation.sol",
-          "scope": 1080,
+          "scope": 1113,
           "symbolAliases": [
             null
           ],
           "unitAlias": ""
         },
-        "id": 1035,
+        "id": 1068,
         "name": "ImportDirective",
         "src": "26:35:2"
       },
@@ -710,23 +710,23 @@
             null
           ],
           "contractDependencies": [
-            1228
+            1261
           ],
           "contractKind": "contract",
           "documentation": null,
           "fullyImplemented": true,
           "linearizedBaseContracts": [
-            1079
+            1112
           ],
           "name": "OrderFactory",
-          "scope": 1080
+          "scope": 1113
         },
         "children": [
           {
             "attributes": {
               "constant": false,
               "name": "deployedOrders",
-              "scope": 1079,
+              "scope": 1112,
               "stateVariable": true,
               "storageLocation": "default",
               "type": "contract OrderTransportation[]",
@@ -744,20 +744,20 @@
                     "attributes": {
                       "contractScope": null,
                       "name": "OrderTransportation",
-                      "referencedDeclaration": 1228,
+                      "referencedDeclaration": 1261,
                       "type": "contract OrderTransportation"
                     },
-                    "id": 1036,
+                    "id": 1069,
                     "name": "UserDefinedTypeName",
                     "src": "90:19:2"
                   }
                 ],
-                "id": 1037,
+                "id": 1070,
                 "name": "ArrayTypeName",
                 "src": "90:21:2"
               }
             ],
-            "id": 1038,
+            "id": 1071,
             "name": "VariableDeclaration",
             "src": "90:43:2"
           },
@@ -771,7 +771,7 @@
                 null
               ],
               "name": "createOrder",
-              "scope": 1079,
+              "scope": 1112,
               "stateMutability": "nonpayable",
               "superFunction": null,
               "visibility": "public"
@@ -783,7 +783,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "from",
-                      "scope": 1069,
+                      "scope": 1102,
                       "stateVariable": false,
                       "storageLocation": "memory",
                       "type": "string",
@@ -796,12 +796,12 @@
                           "name": "string",
                           "type": "string"
                         },
-                        "id": 1039,
+                        "id": 1072,
                         "name": "ElementaryTypeName",
                         "src": "162:6:2"
                       }
                     ],
-                    "id": 1040,
+                    "id": 1073,
                     "name": "VariableDeclaration",
                     "src": "162:18:2"
                   },
@@ -809,7 +809,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "to",
-                      "scope": 1069,
+                      "scope": 1102,
                       "stateVariable": false,
                       "storageLocation": "memory",
                       "type": "string",
@@ -822,12 +822,12 @@
                           "name": "string",
                           "type": "string"
                         },
-                        "id": 1041,
+                        "id": 1074,
                         "name": "ElementaryTypeName",
                         "src": "182:6:2"
                       }
                     ],
-                    "id": 1042,
+                    "id": 1075,
                     "name": "VariableDeclaration",
                     "src": "182:16:2"
                   },
@@ -835,7 +835,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "freightClass",
-                      "scope": 1069,
+                      "scope": 1102,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "uint256",
@@ -848,12 +848,12 @@
                           "name": "uint",
                           "type": "uint256"
                         },
-                        "id": 1043,
+                        "id": 1076,
                         "name": "ElementaryTypeName",
                         "src": "200:4:2"
                       }
                     ],
-                    "id": 1044,
+                    "id": 1077,
                     "name": "VariableDeclaration",
                     "src": "200:17:2"
                   },
@@ -861,7 +861,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "estimate_arrival_time",
-                      "scope": 1069,
+                      "scope": 1102,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "uint256",
@@ -874,12 +874,12 @@
                           "name": "uint",
                           "type": "uint256"
                         },
-                        "id": 1045,
+                        "id": 1078,
                         "name": "ElementaryTypeName",
                         "src": "219:4:2"
                       }
                     ],
-                    "id": 1046,
+                    "id": 1079,
                     "name": "VariableDeclaration",
                     "src": "219:26:2"
                   },
@@ -887,7 +887,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "consignee",
-                      "scope": 1069,
+                      "scope": 1102,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "address",
@@ -901,17 +901,17 @@
                           "stateMutability": "nonpayable",
                           "type": "address"
                         },
-                        "id": 1047,
+                        "id": 1080,
                         "name": "ElementaryTypeName",
                         "src": "247:7:2"
                       }
                     ],
-                    "id": 1048,
+                    "id": 1081,
                     "name": "VariableDeclaration",
                     "src": "247:17:2"
                   }
                 ],
-                "id": 1049,
+                "id": 1082,
                 "name": "ParameterList",
                 "src": "161:104:2"
               },
@@ -922,7 +922,7 @@
                   ]
                 },
                 "children": [],
-                "id": 1050,
+                "id": 1083,
                 "name": "ParameterList",
                 "src": "273:0:2"
               },
@@ -931,7 +931,7 @@
                   {
                     "attributes": {
                       "assignments": [
-                        1052
+                        1085
                       ]
                     },
                     "children": [
@@ -939,7 +939,7 @@
                         "attributes": {
                           "constant": false,
                           "name": "newOrder",
-                          "scope": 1068,
+                          "scope": 1101,
                           "stateVariable": false,
                           "storageLocation": "default",
                           "type": "contract OrderTransportation",
@@ -951,15 +951,15 @@
                             "attributes": {
                               "contractScope": null,
                               "name": "OrderTransportation",
-                              "referencedDeclaration": 1228,
+                              "referencedDeclaration": 1261,
                               "type": "contract OrderTransportation"
                             },
-                            "id": 1051,
+                            "id": 1084,
                             "name": "UserDefinedTypeName",
                             "src": "283:19:2"
                           }
                         ],
-                        "id": 1052,
+                        "id": 1085,
                         "name": "VariableDeclaration",
                         "src": "283:28:2"
                       },
@@ -1013,15 +1013,15 @@
                                 "attributes": {
                                   "contractScope": null,
                                   "name": "OrderTransportation",
-                                  "referencedDeclaration": 1228,
+                                  "referencedDeclaration": 1261,
                                   "type": "contract OrderTransportation"
                                 },
-                                "id": 1053,
+                                "id": 1086,
                                 "name": "UserDefinedTypeName",
                                 "src": "318:19:2"
                               }
                             ],
-                            "id": 1054,
+                            "id": 1087,
                             "name": "NewExpression",
                             "src": "314:23:2"
                           },
@@ -1031,11 +1031,11 @@
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 1040,
+                              "referencedDeclaration": 1073,
                               "type": "string memory",
                               "value": "from"
                             },
-                            "id": 1055,
+                            "id": 1088,
                             "name": "Identifier",
                             "src": "338:4:2"
                           },
@@ -1045,11 +1045,11 @@
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 1042,
+                              "referencedDeclaration": 1075,
                               "type": "string memory",
                               "value": "to"
                             },
-                            "id": 1056,
+                            "id": 1089,
                             "name": "Identifier",
                             "src": "344:2:2"
                           },
@@ -1059,11 +1059,11 @@
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 1044,
+                              "referencedDeclaration": 1077,
                               "type": "uint256",
                               "value": "freightClass"
                             },
-                            "id": 1057,
+                            "id": 1090,
                             "name": "Identifier",
                             "src": "348:12:2"
                           },
@@ -1073,11 +1073,11 @@
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 1046,
+                              "referencedDeclaration": 1079,
                               "type": "uint256",
                               "value": "estimate_arrival_time"
                             },
-                            "id": 1058,
+                            "id": 1091,
                             "name": "Identifier",
                             "src": "362:21:2"
                           },
@@ -1087,21 +1087,21 @@
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 1048,
+                              "referencedDeclaration": 1081,
                               "type": "address",
                               "value": "consignee"
                             },
-                            "id": 1059,
+                            "id": 1092,
                             "name": "Identifier",
                             "src": "385:9:2"
                           }
                         ],
-                        "id": 1060,
+                        "id": 1093,
                         "name": "FunctionCall",
                         "src": "314:81:2"
                       }
                     ],
-                    "id": 1061,
+                    "id": 1094,
                     "name": "VariableDeclarationStatement",
                     "src": "283:112:2"
                   },
@@ -1126,7 +1126,7 @@
                             "attributes": {
                               "argumentTypes": [
                                 {
-                                  "typeIdentifier": "t_contract$_OrderTransportation_$1228",
+                                  "typeIdentifier": "t_contract$_OrderTransportation_$1261",
                                   "typeString": "contract OrderTransportation"
                                 }
                               ],
@@ -1145,16 +1145,16 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 1038,
+                                  "referencedDeclaration": 1071,
                                   "type": "contract OrderTransportation[] storage ref",
                                   "value": "deployedOrders"
                                 },
-                                "id": 1062,
+                                "id": 1095,
                                 "name": "Identifier",
                                 "src": "405:14:2"
                               }
                             ],
-                            "id": 1064,
+                            "id": 1097,
                             "name": "MemberAccess",
                             "src": "405:19:2"
                           },
@@ -1164,31 +1164,31 @@
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 1052,
+                              "referencedDeclaration": 1085,
                               "type": "contract OrderTransportation",
                               "value": "newOrder"
                             },
-                            "id": 1065,
+                            "id": 1098,
                             "name": "Identifier",
                             "src": "425:8:2"
                           }
                         ],
-                        "id": 1066,
+                        "id": 1099,
                         "name": "FunctionCall",
                         "src": "405:29:2"
                       }
                     ],
-                    "id": 1067,
+                    "id": 1100,
                     "name": "ExpressionStatement",
                     "src": "405:29:2"
                   }
                 ],
-                "id": 1068,
+                "id": 1101,
                 "name": "Block",
                 "src": "273:168:2"
               }
             ],
-            "id": 1069,
+            "id": 1102,
             "name": "FunctionDefinition",
             "src": "140:301:2"
           },
@@ -1202,7 +1202,7 @@
                 null
               ],
               "name": "getDeployedOrder",
-              "scope": 1079,
+              "scope": 1112,
               "stateMutability": "view",
               "superFunction": null,
               "visibility": "public"
@@ -1215,7 +1215,7 @@
                   ]
                 },
                 "children": [],
-                "id": 1070,
+                "id": 1103,
                 "name": "ParameterList",
                 "src": "476:2:2"
               },
@@ -1225,7 +1225,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "",
-                      "scope": 1078,
+                      "scope": 1111,
                       "stateVariable": false,
                       "storageLocation": "memory",
                       "type": "contract OrderTransportation[]",
@@ -1243,25 +1243,25 @@
                             "attributes": {
                               "contractScope": null,
                               "name": "OrderTransportation",
-                              "referencedDeclaration": 1228,
+                              "referencedDeclaration": 1261,
                               "type": "contract OrderTransportation"
                             },
-                            "id": 1071,
+                            "id": 1104,
                             "name": "UserDefinedTypeName",
                             "src": "499:19:2"
                           }
                         ],
-                        "id": 1072,
+                        "id": 1105,
                         "name": "ArrayTypeName",
                         "src": "499:21:2"
                       }
                     ],
-                    "id": 1073,
+                    "id": 1106,
                     "name": "VariableDeclaration",
                     "src": "499:28:2"
                   }
                 ],
-                "id": 1074,
+                "id": 1107,
                 "name": "ParameterList",
                 "src": "498:30:2"
               },
@@ -1269,7 +1269,7 @@
                 "children": [
                   {
                     "attributes": {
-                      "functionReturnParameters": 1074
+                      "functionReturnParameters": 1107
                     },
                     "children": [
                       {
@@ -1278,36 +1278,36 @@
                           "overloadedDeclarations": [
                             null
                           ],
-                          "referencedDeclaration": 1038,
+                          "referencedDeclaration": 1071,
                           "type": "contract OrderTransportation[] storage ref",
                           "value": "deployedOrders"
                         },
-                        "id": 1075,
+                        "id": 1108,
                         "name": "Identifier",
                         "src": "545:14:2"
                       }
                     ],
-                    "id": 1076,
+                    "id": 1109,
                     "name": "Return",
                     "src": "538:21:2"
                   }
                 ],
-                "id": 1077,
+                "id": 1110,
                 "name": "Block",
                 "src": "528:38:2"
               }
             ],
-            "id": 1078,
+            "id": 1111,
             "name": "FunctionDefinition",
             "src": "451:115:2"
           }
         ],
-        "id": 1079,
+        "id": 1112,
         "name": "ContractDefinition",
         "src": "63:505:2"
       }
     ],
-    "id": 1080,
+    "id": 1113,
     "name": "SourceUnit",
     "src": "0:568:2"
   },
@@ -1319,12 +1319,12 @@
     "5777": {
       "events": {},
       "links": {},
-      "address": "0x38f689745F049d51e77e3d9838DA9F28eF81069f",
-      "transactionHash": "0xb6ef2a8562a46bd18e0580ed3c2e74a4466d43ff8bcc53fe8a3fbae27f047695"
+      "address": "0x74Fa2479FF9371B8Cab28C482D186264684F84d0",
+      "transactionHash": "0x4b292e67be7319e7736e9cf4eb116b1e8fd451cc9000d7a19224c59f79bfe419"
     }
   },
   "schemaVersion": "3.3.4",
-  "updatedAt": "2021-03-20T15:32:25.932Z",
+  "updatedAt": "2021-05-04T13:02:06.046Z",
   "networkType": "ethereum",
   "devdoc": {
     "methods": {}

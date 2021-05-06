@@ -1,4 +1,5 @@
 pragma solidity ^0.5.16;
+//pragma experimental ABIEncoderV2;
 
 contract Logistics {
 	struct Order {
@@ -53,10 +54,17 @@ contract Logistics {
         address shipOwner;
     }
 
+    struct Identity {
+        bytes32 uuid;
+        bool confirmed;
+    }
+
 	Order[] public orders;
     Ship[] public ships;
     ClearanceRequest[] public clearanceRequests;
-    address private owner;
+    address public owner;
+    string public pubkeyHash;
+    string[] public reqCred;
 
     mapping(address => string) public roles; //Client, Shipper, Inspector, Gauger, hipOwner
     mapping(bytes32 => Order) public ordermapping; //orderID to a order struct
@@ -69,13 +77,15 @@ contract Logistics {
     mapping(bytes32 => OrderOwnership) private orderAssignment;
     mapping(string => Document) public shipClearanceReport;
     mapping(string => Confirmation) public confirmations;
+    mapping(address => Identity) public shipowneruuid;
 
     event roleSet(string role);
     event accessDenied(string role);
-    event UpdateorderStatus(bytes32 orderID, string orderStatus, uint ts);
+    event UpdateorderStatus(bytes32 indexed orderID, string orderStatus, uint ts);
     event UpdateshipStatus(string shipID, string shipStatus, uint ts);
     event UpdateDocStatus(address CreatorOrSigner, string ipfsHash, string role);
     event bidByOthers(address add, string str);
+    event sendUUID(address indexed shipowner, bytes32 indexed uuid);    //address would be used for assignment 
     //event DocSigned(address from, uint256 docId, uint8 singId, bytes16 signType, bytes sign);
 
     
@@ -86,11 +96,11 @@ contract Logistics {
     }
     _;
   }
-/*
+  
     modifier onlyOwner() {
         require(owner == msg.sender, "Ownable: caller is not the owner");
         _;
-    }*/
+    }
 
     constructor () public {
         owner = msg.sender;
@@ -106,7 +116,7 @@ contract Logistics {
         return roles[addr];
     }
     
-    function createOrder (string memory from, string memory to, uint freightClass, uint estimate_arrival_time) public returns(bytes32) {
+    function createOrder (string memory from, string memory to, uint freightClass, uint estimate_arrival_time) public onlyOwner() returns(bytes32) {
         bytes32 uniqueId = keccak256(abi.encodePacked(msg.sender, now));
         ordermapping[uniqueId].orderID = uniqueId;
         ordermapping[uniqueId].from = from;
@@ -121,7 +131,27 @@ contract Logistics {
         shipperBidder[uniqueId].currentPrice = 0;
         shipOwnerBidder[uniqueId].currentPrice = 0;
         emit UpdateorderStatus(uniqueId, 'Created', now);
+        reqCred =['Insurance policy', 'Driver license']; //dangerous goods to be done
         return uniqueId;
+    }
+    
+    function setpubkeyHash (string memory _pubkeyHash) public returns(string memory){
+        pubkeyHash = _pubkeyHash;
+        return pubkeyHash;
+    }
+    
+    function getpubkeyHash() public view returns(string memory) {
+        return pubkeyHash;
+    }
+    
+    function getReqCredCount() public view returns(uint) {
+        return reqCred.length;
+    }
+
+    function getReqCred(uint i) public view returns(string memory) {
+        //for (uint i=0; i<reqCred.length; i++) {
+            return reqCred[i];
+        //}
     }
 
     function bidOrderByShipper(bytes32 orderID, uint price) public {
@@ -141,6 +171,17 @@ contract Logistics {
         ordermapping[orderID].bidByShipOwner = true;
         emit bidByOthers(msg.sender, 'bid by ship');
     }
+    
+    function confirmOrder(bytes32 uuid) public {
+        shipowneruuid[msg.sender].uuid = uuid;
+        shipowneruuid[msg.sender].confirmed = false;
+        emit sendUUID(msg.sender, uuid);
+    }
+    
+    function confirmAssignment(bytes32 orderID, address shipOwner) public onlyOwner() {
+        require(shipowneruuid[shipOwner].confirmed == true, 'Invalid identity');
+        ordermapping[orderID].shipOwner = shipOwner;
+    }
 
     function adminOrder(bytes32 orderID) public {
         require(ordermapping[orderID].orderOwner == msg.sender, 'not creator');
@@ -152,6 +193,7 @@ contract Logistics {
                 orders[i].orderStatus = 2;    //to processing part
             }
         }
+        
         /*
         ordermapping[orderID].shipper = shipperBidder[orderID].bidder;
         ordermapping[orderID].shipOwner = shipOwnerBidder[orderID].bidder;
@@ -174,7 +216,7 @@ contract Logistics {
     function getClearanceRequestsCount() public view returns(uint) {
         return clearanceRequests.length;
     }
-
+/*
     function AddShip(string memory shipID) public {
         shipmapping[shipID].shipID = shipID;
         shipmapping[shipID].shipOwner = msg.sender;
@@ -184,7 +226,7 @@ contract Logistics {
         shipOwnership[msg.sender] = shipID;
         ships.push(shipmapping[shipID]);
         emit UpdateshipStatus(shipID, 'At port', now);
-    }
+    }*/
 /*
     function ChooseShipOwner(string memory shipID, bytes32 orderID) hasRole('Shipper') public {
         //orderToShip[orderID] = shipID;
